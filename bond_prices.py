@@ -2,33 +2,41 @@
 
 import datetime
 
-def get_cashflow_details():
-    cashflowdetails: list[CashFlowDetail] = []
-    cashflowdetails.append(CashFlowDetail('15/02/2016', '15/08/2016', 30.00))    #  1
-    cashflowdetails.append(CashFlowDetail('15/08/2016', '15/02/2017', 30.00))    #  2
-    cashflowdetails.append(CashFlowDetail('15/02/2017', '15/08/2017', 30.00))    #  3
-    cashflowdetails.append(CashFlowDetail('15/08/2017', '15/02/2018', 30.00))    #  4
-    cashflowdetails.append(CashFlowDetail('15/02/2018', '15/08/2018', 30.00))    #  5
-    cashflowdetails.append(CashFlowDetail('15/08/2018', '15/02/2019', 30.00))    #  6
-    cashflowdetails.append(CashFlowDetail('15/02/2019', '15/08/2019', 30.00))    #  7
-    cashflowdetails.append(CashFlowDetail('15/08/2019', '15/02/2020', 30.00))    #  8
-    cashflowdetails.append(CashFlowDetail('15/02/2020', '15/08/2020', 30.00))    #  9
-    cashflowdetails.append(CashFlowDetail('15/08/2020', '15/02/2021', 30.00))    # 10
-    cashflowdetails.append(CashFlowDetail('15/02/2021', '15/08/2021', 30.00))    # 11
-    cashflowdetails.append(CashFlowDetail('15/08/2021', '15/02/2022', 30.00))    # 12
-    cashflowdetails.append(CashFlowDetail('15/02/2022', '15/08/2022', 30.00))    # 13
-    cashflowdetails.append(CashFlowDetail('15/08/2022', '15/02/2023', 30.00))    # 14
-    cashflowdetails.append(CashFlowDetail('15/02/2023', '15/08/2023', 30.00))    # 15
-    cashflowdetails.append(CashFlowDetail('15/08/2023', '15/02/2024', 30.00))    # 16
-    cashflowdetails.append(CashFlowDetail('15/02/2024', '15/08/2024', 30.00))    # 17
-    cashflowdetails.append(CashFlowDetail('15/08/2024', '15/02/2025', 30.00))    # 18
-    cashflowdetails.append(CashFlowDetail('15/02/2025', '15/08/2025', 30.00))    # 19
-    cashflowdetails.append(CashFlowDetail('15/08/2025', '15/02/2026', 1030.00))  # 20
-    return cashflowdetails
+class CashFlow:
+    def __init__(self, start_date, end_date, coupon) -> None:
+        format_str: str = '%d/%m/%Y'
+        self.start_date = datetime.datetime.strptime(start_date, format_str).date()
+        self.end_date = datetime.datetime.strptime(end_date, format_str).date()
+        self.coupon: float = coupon
+        self.days: int = (self.end_date - self.start_date).days
+
+def get_cashflows() -> list[CashFlow]:
+    cashflows: list[CashFlow] = []
+    cashflows.append(CashFlow('15/02/2016', '15/08/2016', 30.00))    # 1
+    cashflows.append(CashFlow('15/08/2016', '15/02/2017', 30.00))    # 2
+    cashflows.append(CashFlow('15/02/2017', '15/08/2017', 30.00))    # 3
+    cashflows.append(CashFlow('15/08/2017', '15/02/2018', 30.00))    # 4
+    cashflows.append(CashFlow('15/02/2018', '15/08/2018', 30.00))    # 5
+    cashflows.append(CashFlow('15/08/2018', '15/02/2019', 30.00))    # 6
+    cashflows.append(CashFlow('15/02/2019', '15/08/2019', 30.00))    # 7
+    cashflows.append(CashFlow('15/08/2019', '15/02/2020', 30.00))    # 8
+    cashflows.append(CashFlow('15/02/2020', '15/08/2020', 30.00))    # 9
+    cashflows.append(CashFlow('15/08/2020', '15/02/2021', 30.00))    # 10
+    cashflows.append(CashFlow('15/02/2021', '15/08/2021', 30.00))    # 11
+    cashflows.append(CashFlow('15/08/2021', '15/02/2022', 30.00))    # 12
+    cashflows.append(CashFlow('15/02/2022', '15/08/2022', 30.00))    # 13
+    cashflows.append(CashFlow('15/08/2022', '15/02/2023', 30.00))    # 14
+    cashflows.append(CashFlow('15/02/2023', '15/08/2023', 30.00))    # 15
+    cashflows.append(CashFlow('15/08/2023', '15/02/2024', 30.00))    # 16
+    cashflows.append(CashFlow('15/02/2024', '15/08/2024', 30.00))    # 17
+    cashflows.append(CashFlow('15/08/2024', '15/02/2025', 30.00))    # 18
+    cashflows.append(CashFlow('15/02/2025', '15/08/2025', 30.00))    # 19
+    cashflows.append(CashFlow('15/08/2025', '15/02/2026', 1030.00))  # 20
+    return cashflows
 
 
 class Bond:
-    def __init__(self, cashflow_details, frequency):
+    def __init__(self, cashflows, frequency):
         format_str: str = '%d-%b-%y'
         settlement = '10-Jun-16'
 
@@ -38,9 +46,9 @@ class Bond:
 
         self.frequency = frequency
 
-        self.cashflows = []
-        for cashflow_detail in cashflow_details:
-            self.cashflows.append(CashFlow(cashflow_detail))
+        self.cashflows = cashflows
+        #for cashflow_detail in cashflow_details:
+        #    self.cashflows.append(CashFlow(cashflow_detail))
 
         end_date = self.cashflows[-1].end_date
         self.maturity_date = end_date
@@ -59,21 +67,7 @@ class Bond:
 
 
 
-class CashFlowDetail:
-    def __init__(self, start_date, end_date, coupon):
-        format_str: str = '%d/%m/%Y'
-        self.start_date = datetime.datetime.strptime(start_date, format_str).date()
-        self.end_date = datetime.datetime.strptime(end_date, format_str).date()
-        self.coupon: float = coupon
-        self.days: int = (self.end_date - self.start_date).days
 
-class CashFlow:
-    def __init__(self, cashflow_detail): # start_date, end_date, coupon):
-        # create a cashflow
-        self.start_date = cashflow_detail.start_date
-        self.end_date = cashflow_detail.end_date
-        self.coupon: float = cashflow_detail.coupon
-        self.days: int = (self.end_date - self.start_date).days
 
 def calc_initial_guess(bond, current_details):
     coupon = bond.frequency * bond.coupon/bond.nominal
@@ -112,7 +106,7 @@ if __name__ == '__main__':
     delta = -0.01
     denomination = 1000
 
-    bond = Bond(get_cashflow_details(), frequency=2)
+    bond = Bond(get_cashflows(), frequency=2)
 
 
     format_str: str = '%d-%b-%y'
