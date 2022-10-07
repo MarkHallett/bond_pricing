@@ -165,13 +165,13 @@ if __name__ == '__main__':
 
     print('-----')
     print('Bond Details')
-    print('  Settlement     ', current_details['date_today']) # TODO date format
+    print('  Settlement     ', current_details['date_today'].strftime("%d-%b-%y"))
     print('  Denomination   ', denomination)
     print('  Par (%)        ', 100)
     print('  Clean Price (%)', round(current_details['mkt_clean_price'],4))
     print('  Coupon (%)     ', 100*bond.coupon*bond.frequency/bond.nominal)
     print('  Frequency      ', bond.frequency)
-    print('  Maturity Date  ', bond.maturity_date) # TODO date format
+    print('  Maturity Date  ', bond.maturity_date.strftime("%d-%b-%y"))
     print('  Maturity       ', round(bond.maturity,2))
     print('  ')
     print('Current Coupon')
