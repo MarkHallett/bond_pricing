@@ -65,7 +65,7 @@ class Bond:
         return pv
 
 
-def calc_initial_guess(bond: Bond, current_details: float) -> float:
+def calc_initial_guess(bond: Bond, current_details: dict) -> float:
     #Calculate a first enstimate of the irr.
     coupon = bond.frequency * bond.coupon/bond.nominal
     mkt_clean_price_percent = current_details['mkt_clean_price']/100
